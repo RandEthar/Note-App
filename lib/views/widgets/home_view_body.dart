@@ -19,7 +19,7 @@ class HomeViewBody extends StatefulWidget {
 class _HomeViewBodyState extends State<HomeViewBody> {
    @override
   initState() {
-   context.read<NoteCubit>().featchNotes();
+   context.read<NoteCubit>().filterCategories(null);
   }
 
   
@@ -34,11 +34,11 @@ class _HomeViewBodyState extends State<HomeViewBody> {
   Widget build(BuildContext context) {
     return BlocBuilder<NoteCubit, NoteState>(
       builder: (context, state) {
-         if (state is NoteFeatchFalier) {
-       Center(child: Text(state.MassageError));
-      }else if (state is NoteFeatchLoading) {
+         if (state is FilterCategoriesFalier) {
+       Center(child: Text(state.massageError));
+      }else if (state is FilterCategoriesLoading) {
       Center(child:CircularProgressIndicator());
-      } else   if (state is NoteFeatchSuccess) {
+      } else   if (state is FilterCategoriesSuccess) {
         List<NoteModel>listNote=state.notes;
   return Column(
     children: [
@@ -133,6 +133,12 @@ class _HomeViewBodyState extends State<HomeViewBody> {
                     child: GestureDetector(
                         onTap: () {
                           selectedCategory = index;
+                         
+                          if (categories[index].name=='All') {
+                             context.read<NoteCubit>().filterCategories('All');
+                          }else{
+                             context.read<NoteCubit>().filterCategories(categories[index].name);
+                          }
                           setState(() {});
                         },
                         child: Center(
@@ -178,7 +184,7 @@ class _HomeViewBodyState extends State<HomeViewBody> {
                         style:
                             AppStyle.bold14.copyWith(color: Colors.black),
                       ),
-                      SizedBox(
+                    const  SizedBox(
                         height: 10,
                       ),
                       Text(

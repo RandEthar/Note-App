@@ -23,7 +23,24 @@ final List<NoteModel> notes;
 
 }
 final class NoteFeatchFalier extends NoteState {
-  final String MassageError;
+  final String massageError;
 
-  NoteFeatchFalier({required this.MassageError});
+  NoteFeatchFalier({required this.massageError});
+}
+
+//filterCategories
+
+final class FilterCategoriesLoading extends NoteState {}
+
+final class FilterCategoriesSuccess extends NoteState {
+final List<NoteModel> notes;
+
+  FilterCategoriesSuccess({required this.notes});
+
+
+}
+final class FilterCategoriesFalier extends NoteState {
+  final String massageError;
+
+  FilterCategoriesFalier({required this.massageError});
 }

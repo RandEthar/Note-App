@@ -19,7 +19,7 @@ class ButtomSheetWidget extends StatelessWidget {
       listener: (context, state) {
       if (state is NoteSuccess) {
         Navigator.pop(context);
-           
+            context.read<NoteCubit>().filterCategories(null);
       }else if (state is NoteFalier) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.toString())));
       }
@@ -100,7 +100,7 @@ class ButtomSheetWidget extends StatelessWidget {
                             borderRadius: BorderRadius.circular(8))),
                     onPressed: () {
                       context.read<NoteCubit>().addNote();
-                      context.read<NoteCubit>().featchNotes();
+                     
                    
                     },
                     child:state is NoteLoading? const Center(child: CircularProgressIndicator(color: Colors.white,)):Text(

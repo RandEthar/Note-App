@@ -35,9 +35,35 @@ class NoteCubit extends Cubit<NoteState> {
       }
          emit(NoteFeatchSuccess(notes: notes));
     } on Exception catch (e) {
-      emit(NoteFeatchFalier(MassageError: e.toString()));
+      emit(NoteFeatchFalier(massageError: e.toString()));
 
 
     }
   }
+ void filterCategories(String? nameCategory) {
+  emit(FilterCategoriesLoading());
+
+  try {
+    var notesBox = Hive.box<NoteModel>('notes');
+    List<NoteModel> filteredNotes = [];
+
+    for (int i = 0; i < notesBox.length; i++) {
+      NoteModel noteItem = notesBox.getAt(i)!;
+      
+     
+      if (nameCategory == 'All'||nameCategory == null || noteItem.noteType == nameCategory) {
+        filteredNotes.add(noteItem);
+      }
+    }
+
+    emit(FilterCategoriesSuccess(notes: filteredNotes));
+  } catch (e) {
+    emit(FilterCategoriesFalier(massageError: e.toString()));
+  }
+}
+
+
+
+
+
 }
